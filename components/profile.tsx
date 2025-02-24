@@ -3,23 +3,20 @@ import styles from '@/styles/profile.module.css';
 import { getProvider, getGameTokenContract, getGameNFTContract, checkAndSwitchNetwork } from '@/utils/ethers';
 import { ethers } from 'ethers';
 import NFTCard from './nft-card';
+import { CONTRACT_ADDRESSES } from '@/contracts-abi/config';
 
-interface NFTMetadata {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  attributes: {
-    trait_type: string;
-    value: string | number;
-  }[];
+interface NFTData {
+  tokenId: string;
+  highestScore: number;
+  timestamp: string;
+  rarity: string;
 }
 
 export default function Profile() {
   const [balance, setBalance] = useState('0');
   const [address, setAddress] = useState('');
   const [isConnected, setIsConnected] = useState(false);
-  const [nfts, setNfts] = useState<NFTMetadata[]>([]);
+  const [nfts, setNfts] = useState<NFTData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
 
@@ -63,56 +60,50 @@ export default function Profile() {
   // 获取用户的NFT数据
   const fetchUserNFTs = async (userAddress: string) => {
     try {
+      setIsLoading(true);
+      console.log('开始获取NFTs, 地址:', userAddress);
+
+      // 只创建一次合约实例
       const provider = getProvider();
       const nftContract = await getGameNFTContract(provider);
+      console.log('NFT Contract 地址:', CONTRACT_ADDRESSES.GAME_NFT);
 
       if (!nftContract) {
-        console.error('Failed to create GameNFT contract');
+        console.error('合约初始化失败');
+        setIsLoading(false);
         return;
       }
 
-      // 获取用户拥有的所有token ID
-      const tokenIds = await nftContract.getUserTokens(userAddress);
-      console.log('Token IDs:', tokenIds); // 调试用
+      // 直接使用 getUserTokens 方法获取用户的所有 tokenId
+      try {
+        const userTokens = await nftContract.getUserTokens(userAddress);
+        console.log('用户的所有 Token:', userTokens);
 
-      if (!tokenIds || tokenIds.length === 0) {
-        setNfts([]);
-        return;
-      }
-
-      // 获取每个NFT的元数据
-      const nftMetadata = await Promise.all(
-        tokenIds.map(async (tokenId: bigint) => {
+        const userNFTs: NFTData[] = [];
+        for (const tokenId of userTokens) {
           try {
-            const tokenURI = await nftContract.tokenURI(tokenId);
-            console.log(`TokenURI for ID ${tokenId}:`, tokenURI); // 调试用
-
-            if (!tokenURI) {
-              console.error(`No tokenURI for token ${tokenId}`);
-              return null;
-            }
-
-            const metadata = parseTokenURI(tokenURI);
-            if (metadata) {
-              return {
-                ...metadata,
-                id: tokenId.toString()
-              };
-            }
+            const [highestScore, , timestamp, rarity] = await nftContract.getNFTDetails(tokenId);
+            userNFTs.push({
+              tokenId: tokenId.toString(),
+              highestScore: Number(highestScore),
+              timestamp,
+              rarity
+            });
           } catch (error) {
-            console.error(`Error fetching metadata for token ${tokenId}:`, error);
+            console.error(`获取 Token ${tokenId} 详情失败:`, error);
           }
-          return null;
-        })
-      );
+        }
 
-      // 过滤掉null值并设置状态
-      const validMetadata = nftMetadata.filter((metadata): metadata is NFTMetadata => metadata !== null);
-      console.log('Valid metadata:', validMetadata); // 调试用
-      setNfts(validMetadata);
+        console.log('获取到的NFT数据:', userNFTs);
+        setNfts(userNFTs);
+      } catch (error) {
+        console.error('获取用户Token失败:', error);
+        setNfts([]);
+      }
     } catch (error) {
-      console.error('Error fetching NFTs:', error);
-      setNfts([]);
+      console.error('获取NFTs失败:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -252,13 +243,17 @@ export default function Profile() {
         <h2>My NFTs</h2>
         {isLoading ? (
           <div className={styles.loading}>Loading NFTs...</div>
+        ) : nfts.length === 0 ? (
+          <p>No NFTs found. Play the game to mint some!</p>
         ) : (
-          <div className={styles.grid}>
-            {nfts.map(nft => (
-              <NFTCard
-                key={nft.id}
-                metadata={nft}
-              />
+          <div className={styles.nftGrid}>
+            {nfts.map((nft) => (
+              <div key={nft.tokenId} className={styles.nftCard}>
+                <h3>NFT #{nft.tokenId}</h3>
+                <p>Highest Score: {nft.highestScore}</p>
+                <p>Rarity: {nft.rarity}</p>
+                <p>Minted: {nft.timestamp}</p>
+              </div>
             ))}
           </div>
         )}
