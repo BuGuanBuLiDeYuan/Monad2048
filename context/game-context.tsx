@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useReducer,
+  useState,
 } from "react";
 import { isNil, throttle } from "lodash";
 import {
@@ -117,23 +118,24 @@ export default function GameProvider({ children }: PropsWithChildren) {
   };
 
   const endGame = useCallback(() => {
-    dispatch({ type: "update_status", status: "ended", maxScore: gameState.score });
-  }, [gameState.score]);
+    if (!gameState) return;
+    dispatch({ type: "update_status", status: "ended", maxScore: gameState.score || 0 });
+  }, [gameState]);
 
   useEffect(() => {
-    if (gameState.hasChanged) {
+    if (gameState?.hasChanged) {
       setTimeout(() => {
         dispatch({ type: "clean_up" });
         appendRandomTile();
       }, mergeAnimationDuration);
     }
-  }, [gameState.hasChanged]);
+  }, [gameState]);
 
   useEffect(() => {
-    if (!gameState.hasChanged) {
+    if (!gameState?.hasChanged) {
       checkGameState();
     }
-  }, [gameState.hasChanged]);
+  }, [gameState]);
 
   return (
     <GameContext.Provider
