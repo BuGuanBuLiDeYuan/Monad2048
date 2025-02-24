@@ -2,14 +2,13 @@
 
 [English](README.md) | [中文](README_CN.md)
 
-一个基于区块链的 2048 游戏，集成了 NFT 铸造和交易市场功能，玩家可以将游戏成就铸造为 NFT 并在市场上交易。现在支持多个网络，包括 Sepolia、Telos 测试网和 Avalanche Fuji，独特的 NFT 设计存储在 IPFS 上。
+一个基于区块链的 2048 游戏，集成了 NFT 铸造和交易市场功能，玩家可以将游戏成就铸造为 NFT 并在市场上交易。现在支持 Monad Testnet，独特的 NFT 设计存储在 IPFS 上。
 
 ## 功能特点
 
 - 🎮 经典的 2048 游戏玩法
 - 🎨 游戏成就 NFT 铸造系统，具有独特设计
 - 💰 NFT 交易市场
-- 🌐 多网络支持：Sepolia、Telos 测试网、Avalanche Fuji
 - 🖼️ NFT 图片存储在 IPFS 上
 - 🎁 每日空投代币奖励
 - 📱 响应式设计，支持移动端

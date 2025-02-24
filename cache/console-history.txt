@@ -1,0 +1,32 @@
+})
+    prices: prices.map(p => ethers.formatEther(p))
+    sellers,
+    tokenIds: tokenIds.map(id => id.toString()),
+console.log("Listed NFTs:", {
+const [tokenIds, sellers, prices] = await marketplace.getAllListedNFTs()
+// 获取所有上架的 NFT
+await marketplace.listNFT(tokenId, price)
+const price = ethers.parseEther("100")
+// 上架 NFT，价格设为 100 GAME
+const marketplace = await Marketplace.attach("0x1EBB2358BF459453a630705F37d372AC48bAC16A")
+const Marketplace = await ethers.getContractFactory("Marketplace")
+await gameNFT.approve("0x1EBB2358BF459453a630705F37d372AC48bAC16A", tokenId)
+const tokenId = "你的NFT的ID" // 从浏览器中看到的 NFT ID
+// 授权 Marketplace 合约操作 NFT
+const gameNFT = await GameNFT.attach("0x569E6721bfF241F7Ed04313e061ead03e2f6f181")
+const GameNFT = await ethers.getContractFactory("GameNFT")
+// 在 hardhat console 中
+console.log("NFT balance:", balance.toString())
+const balance = await gameNFT.balanceOf(signer.address)
+const [signer] = await ethers.getSigners()
+console.log("NFT minted!")
+const receipt = await tx.wait()
+const tx = await gameNFT.mint(score, timestamp)
+const timestamp = new Date().toISOString() // 当前时间
+const score = 2048 // 示例分数
+const gameNFT = await GameNFT.attach("0x569E6721bfF241F7Ed04313e061ead03e2f6f181")
+const GameNFT = await ethers.getContractFactory("GameNFT")
+await gameToken.approve("0x569E6721bfF241F7Ed04313e061ead03e2f6f181", MINT_PRICE)
+const MINT_PRICE = ethers.parseEther("10")
+const gameToken = await GameToken.attach("0xC732e570851Ab4C4cd32e1960BdC6D6Ef28C802a")
+const GameToken = await ethers.getContractFactory("GameToken")

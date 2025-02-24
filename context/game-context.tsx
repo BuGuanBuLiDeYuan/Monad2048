@@ -18,10 +18,10 @@ type MoveDirection = "move_up" | "move_down" | "move_left" | "move_right";
 export const GameContext = createContext({
   score: 0,
   status: "ongoing",
-  moveTiles: (_: MoveDirection) => {},
+  moveTiles: (_: MoveDirection) => { },
   getTiles: () => [] as Tile[],
-  startGame: () => {},
-  endGame: () => {},
+  startGame: () => { },
+  endGame: () => { },
   maxScore: 0,
   gameEndTime: ""
 });
@@ -113,7 +113,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
       }
     }
 
-      dispatch({ type: "update_status", status: "lost", maxScore: gameState.score });
+    dispatch({ type: "update_status", status: "lost", maxScore: gameState.score });
   };
 
   const endGame = useCallback(() => {
@@ -145,7 +145,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
         startGame,
         endGame,
         maxScore: gameState.maxScore,
-        gameEndTime: gameState.gameEndTime 
+        gameEndTime: gameState.gameEndTime
       }}
     >
       {children}

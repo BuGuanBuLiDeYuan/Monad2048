@@ -11,6 +11,9 @@ export const TELOS_CHAIN_ID = 41;
 // 添加Avalanche Fuji网络 ID
 export const AVALANCHE_FUJI_CHAIN_ID = 43113;
 
+// 添加 Monad Testnet 网络 ID
+export const MONAD_TESTNET_CHAIN_ID = 10143;
+
 // 检查钱包是否已连接
 export const isWalletConnected = async () => {
   try {
@@ -92,17 +95,17 @@ export const getMarketplaceContract = async (providerOrSigner: any) => {
   }
 };
 
-// 检查并切换到Telos网络
+// 检查并切换到Monad Testnet
 export const checkAndSwitchNetwork = async () => {
   try {
     if (!window.ethereum) return false;
 
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    if (parseInt(chainId) !== TELOS_CHAIN_ID && parseInt(chainId) !== AVALANCHE_FUJI_CHAIN_ID) {
+    if (parseInt(chainId) !== MONAD_TESTNET_CHAIN_ID) {
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${AVALANCHE_FUJI_CHAIN_ID.toString(16)}` }],
+          params: [{ chainId: `0x${MONAD_TESTNET_CHAIN_ID.toString(16)}` }],
         });
         return true;
       } catch (error: any) {
@@ -113,15 +116,15 @@ export const checkAndSwitchNetwork = async () => {
               method: 'wallet_addEthereumChain',
               params: [
                 {
-                  chainId: `0x${AVALANCHE_FUJI_CHAIN_ID.toString(16)}`,
-                  chainName: 'Avalanche Fuji Testnet',
+                  chainId: `0x${MONAD_TESTNET_CHAIN_ID.toString(16)}`,
+                  chainName: 'Monad Testnet',
                   nativeCurrency: {
-                    name: 'AVAX',
-                    symbol: 'AVAX',
+                    name: 'MONAD',
+                    symbol: 'MON',
                     decimals: 18,
                   },
-                  rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
-                  blockExplorerUrls: ['https://testnet.snowtrace.io'],
+                  rpcUrls: ['https://testnet-rpc.monad.xyz/'],
+                  blockExplorerUrls: ['http://testnet.monadexplorer.com/'],
                 },
               ],
             });

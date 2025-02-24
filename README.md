@@ -2,18 +2,17 @@
 
 [English](README.md) | [中文](README_CN.md)
 
-A blockchain-based 2048 game that integrates NFT minting and marketplace functionality, allowing players to mint their game achievements as NFTs and trade them in the marketplace. Now supports multiple networks including Sepolia, Telos Testnet, and Avalanche Fuji, with unique NFT designs stored on IPFS.
+A blockchain-based 2048 game that integrates NFT minting and marketplace functionality, allowing players to mint their game achievements as NFTs and trade them in the marketplace. Now supports Monad Testnet, with unique NFT designs stored on IPFS.
 
 ## Features
 
 - 🎮 Classic 2048 gameplay
 - 🎨 Game achievement NFT minting system with unique designs
 - 💰 NFT marketplace for trading
-- 🌐 Multi-network support: Sepolia, Telos Testnet, Avalanche Fuji
 - 🖼️ NFT images stored on IPFS
 - 🎁 Daily token airdrop rewards
 - 📱 Responsive design for mobile devices
-- 🔗 Ethereum-based smart contracts
+- 🔗 EVM smart contracts
 
 ## Tech Stack
 
@@ -94,9 +93,6 @@ Gamefi-2048/
 - Rare: `https://ipfs.io/ipfs/bafybeiaf3fy7r2evvqlhqqpbwla3lsurie2h6cwanalp7fzpxn3cq7pwgy`
 - Common: `https://ipfs.io/ipfs/bafybeighwgusfefm23avzsxpaqbkacrqmywfunx3lx3nywmf23uwxvb45i`
 
-You can get Sepolia testnet ETH from these faucets:
-- [Sepolia Faucet](https://www.alchemy.com/faucets/ethereum-sepolia)
-- [chainlink Sepolia Faucet](https://faucets.chain.link/sepolia)
 
 ## Contributing
 
