@@ -25,26 +25,6 @@ export default function Home() {
             <main className={styles.gameMain}>
               <Board onTabChange={setActiveTab} />
             </main>
-            <div className={styles.gameDescription}>
-              <h2>关于 Monad 2048</h2>
-              <p>
-                Monad 2048 是一款基于区块链的经典 2048 游戏。玩家可以通过滑动方块合并相同数字，
-                获得高分后将游戏成就铸造为独特的 NFT。每个 NFT 都有不同的稀有度，
-                并存储在 IPFS 上，确保其永久性和不可篡改性。
-              </p>
-              <p>
-                游戏还提供代币奖励系统，玩家可以通过日常游戏和高分挑战赚取代币。
-                这些代币可用于游戏内特权和未来的 NFT 交易市场。
-              </p>
-              <h3>主要特点</h3>
-              <ul>
-                <li>经典 2048 游戏玩法</li>
-                <li>基于游戏成就的 NFT 铸造系统</li>
-                <li>代币奖励机制</li>
-                <li>即将推出的 NFT 交易市场</li>
-                <li>支持 Monad 测试网</li>
-              </ul>
-            </div>
           </div>
         );
       case 'marketplace':

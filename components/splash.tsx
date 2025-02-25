@@ -26,14 +26,14 @@ export default function Splash({ heading, type, maxScore, gameEndTime, onTabChan
     try {
       const provider = getProvider();
       const accounts = await provider.send('eth_accounts', []);
-      
+
       if (accounts.length === 0) {
         toast.error('Please connect your wallet first');
         return;
       }
 
       setIsLoading(true);
-      
+
       const networkSwitched = await checkAndSwitchNetwork();
       if (!networkSwitched) {
         toast.error('Switch to the correct network');
@@ -48,16 +48,16 @@ export default function Splash({ heading, type, maxScore, gameEndTime, onTabChan
         toast.error('Contract initialization failed');
         return;
       }
-      
+
       // 获取NFT价格
       const mintPrice = await nftContract.mintPrice();
-      
+
       // 授权GameToken
       const approveTx = await tokenContract.approve(
         nftContract.target,  // NFT合约地址
         mintPrice  // 授权金额
       );
-      
+
       const approveToast = toast.loading('Approving GameToken...');
       await approveTx.wait();
       console.log('Approve success！')
@@ -66,8 +66,8 @@ export default function Splash({ heading, type, maxScore, gameEndTime, onTabChan
 
       const score = BigInt(maxScore || 0);
       const timestamp = Math.floor(Date.now() / 1000).toString();
-      console.log(score,timestamp);
-      
+      console.log(score, timestamp);
+
       const tx = await nftContract.mint(
         score,  // 游戏得分
         timestamp,    // 时间戳
@@ -78,7 +78,7 @@ export default function Splash({ heading, type, maxScore, gameEndTime, onTabChan
       console.log('Transaction receipt:', receipt);
       toast.dismiss(mintingToast);
       toast.success('NFT Minted Successfully!');
-      
+
       // 铸造成功后切换到Profile页面
       if (onTabChange) {
         onTabChange('profile');
@@ -105,14 +105,14 @@ export default function Splash({ heading, type, maxScore, gameEndTime, onTabChan
             <p className={styles.score}>Game score: {maxScore}</p>
             <p className={styles.time}>End Game: {gameEndTime}</p>
             <div className={styles.buttonGroup}>
-              <button 
+              <button
                 className={styles.mintButton}
                 onClick={handleMintNFT}
                 disabled={isLoading}
               >
                 {isLoading ? 'Minting...' : 'Mint NFT'}
               </button>
-              <button 
+              <button
                 className={styles.replayButton}
                 onClick={onReplay || startGame}
               >
