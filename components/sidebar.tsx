@@ -174,6 +174,7 @@ export default function Sidebar({ currentTab, onTabChange }: SidebarProps) {
         >
           Game
         </div>
+        {/* 暂时注释掉 Marketplace 选项 */}
         <div
           className={`${styles.tab} ${currentTab === 'marketplace' ? styles.active : ''}`}
           onClick={() => onTabChange('marketplace')}

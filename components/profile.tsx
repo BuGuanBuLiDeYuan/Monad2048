@@ -59,6 +59,36 @@ export default function Profile() {
     }
   };
 
+  // 获取NFT图片URL
+  const getNFTImageUrl = (rarity: string) => {
+    switch (rarity.toLowerCase()) {
+      case 'legendary':
+        return 'https://ipfs.io/ipfs/bafybeicc4xossvnz3acndhqw4zcs4xa2xgiyotpvb3ptishm75qtyeszwq';
+      case 'epic':
+        return 'https://ipfs.io/ipfs/bafybeifh6ifdof7mee7rqkw355tnxh2qrlu2nudze7dhbbxeqcvpuele7q';
+      case 'rare':
+        return 'https://ipfs.io/ipfs/bafybeiaf3fy7r2evvqlhqqpbwla3lsurie2h6cwanalp7fzpxn3cq7pwgy';
+      case 'common':
+      default:
+        return 'https://ipfs.io/ipfs/bafybeighwgusfefm23avzsxpaqbkacrqmywfunx3lx3nywmf23uwxvb45i';
+    }
+  };
+
+  // 将时间戳转换为可读格式
+  const formatTimestamp = (timestamp: string) => {
+    // 将时间戳转换为毫秒
+    const date = new Date(Number(timestamp) * 1000);
+
+    // 格式化为年月日
+    return date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   // 获取用户的NFT数据
   const fetchUserNFTs = async (userAddress: string) => {
     try {
@@ -119,7 +149,7 @@ export default function Profile() {
                 highestScore: Number(highestScore),
                 timestamp,
                 rarity,
-                image: metadata?.image || '',
+                image: getNFTImageUrl(rarity),
                 metadata
               });
             } catch (error) {
@@ -261,9 +291,9 @@ export default function Profile() {
           </span>
         </div>
         <div className={styles.infoRow}>
-          <span className={styles.label}>Token:</span>
+          <span className={styles.label}>Game Token:</span>
           <span className={styles.value}>
-            {isConnected ? `${balance} STD` : '0 STD'}
+            {isConnected ? `${balance} ` : '0'}
           </span>
         </div>
       </div>
@@ -303,7 +333,7 @@ export default function Profile() {
                     },
                     {
                       trait_type: "Timestamp",
-                      value: nft.timestamp
+                      value: formatTimestamp(nft.timestamp)
                     }
                   ]
                 }}

@@ -69,23 +69,6 @@ Gamefi-2048/
 4. Mint NFT when reaching target score
 5. Trade your NFTs in the marketplace
 
-## Contract Addresses
-
-> Note: All contracts are deployed on Sepolia testnet. Please make sure you have some Sepolia ETH in your wallet to receive daily airdrops and interact with the contracts.
-
-- GameToken: `0x5d768b72b6a41cB84B021A169E0B77a7b6b06f49`
-- GameNFT: `0x37eAD756497bBc8e69a16DC260FaB698309b0067`
-- Marketplace: `0x3045e820CcF4059cE1747F033e8D6246F43850dB`
-
-### Telos Testnet
-- GameToken: `0x09421D4e8594D3B19ABFc9c1C44096fa3BaAB6e1`
-- GameNFT: `0x459287afB0daf7e7FDCcA4bda08C8a5bd0BfE230`
-- Marketplace: `0x60cda54041199A7Fa74738053F6D78527A9120c6`
-
-### Avalanche Fuji
-- GameToken: `0x4A3Ec63705BB4BCcBaFcabfD8D7B6e9986082489`
-- GameNFT: `0x63F6082C3B8193d43EE146d790DF30925442B645`
-- Marketplace: `0x459287afB0daf7e7FDCcA4bda08C8a5bd0BfE230`
 
 ### NFT Images
 - Legendary: `https://ipfs.io/ipfs/bafybeicc4xossvnz3acndhqw4zcs4xa2xgiyotpvb3ptishm75qtyeszwq`

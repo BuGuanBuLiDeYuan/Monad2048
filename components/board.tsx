@@ -69,7 +69,7 @@ export default function Board({ onTabChange }: BoardProps) {
 
   const renderTiles = () => {
     return getTiles().map((tile: TileModel) => (
-      <Tile key={`${tile.id}`} {...tile} />
+      <Tile key={tile?.id || `tile-${Math.random()}`} {...tile} />
     ));
   };
 
