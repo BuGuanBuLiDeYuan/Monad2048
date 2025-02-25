@@ -10,6 +10,8 @@ interface NFTData {
   highestScore: number;
   timestamp: string;
   rarity: string;
+  image: string;
+  metadata: any;
 }
 
 export default function Profile() {
@@ -63,10 +65,8 @@ export default function Profile() {
       setIsLoading(true);
       console.log('开始获取NFTs, 地址:', userAddress);
 
-      // 只创建一次合约实例
       const provider = getProvider();
       const nftContract = await getGameNFTContract(provider);
-      console.log('NFT Contract 地址:', CONTRACT_ADDRESSES.GAME_NFT);
 
       if (!nftContract) {
         console.error('合约初始化失败');
@@ -74,23 +74,59 @@ export default function Profile() {
         return;
       }
 
-      // 直接使用 getUserTokens 方法获取用户的所有 tokenId
+      console.log('NFT Contract 地址:', nftContract.target);
+
       try {
-        const userTokens = await nftContract.getUserTokens(userAddress);
-        console.log('用户的所有 Token:', userTokens);
+        // 获取用户的 NFT 数量
+        const balance = await nftContract.balanceOf(userAddress);
+        console.log('用户 NFT 数量:', balance.toString());
+
+        if (balance.toString() === '0') {
+          console.log('用户没有 NFT');
+          setNfts([]);
+          setIsLoading(false);
+          return;
+        }
 
         const userNFTs: NFTData[] = [];
-        for (const tokenId of userTokens) {
+
+        // 使用 tokenOfOwnerByIndex 方法获取用户的所有 tokenId
+        for (let i = 0; i < Number(balance); i++) {
           try {
-            const [highestScore, , timestamp, rarity] = await nftContract.getNFTDetails(tokenId);
-            userNFTs.push({
-              tokenId: tokenId.toString(),
-              highestScore: Number(highestScore),
-              timestamp,
-              rarity
-            });
+            // 获取用户拥有的第 i 个 NFT 的 tokenId
+            const tokenId = await nftContract.tokenOfOwnerByIndex(userAddress, i);
+            console.log(`用户的第 ${i} 个 NFT, tokenId: ${tokenId}`);
+
+            try {
+              // 获取NFT详情
+              const details = await nftContract.getNFTDetails(tokenId);
+              console.log(`Token ${tokenId} 详情:`, details);
+
+              const highestScore = details[0];
+              const timestamp = details[2];
+              const rarity = details[3];
+
+              // 获取 tokenURI
+              const tokenURI = await nftContract.tokenURI(tokenId);
+              console.log(`Token ${tokenId} URI:`, tokenURI);
+
+              // 解析 tokenURI
+              const metadata = parseTokenURI(tokenURI);
+              console.log(`Token ${tokenId} metadata:`, metadata);
+
+              userNFTs.push({
+                tokenId: tokenId.toString(),
+                highestScore: Number(highestScore),
+                timestamp,
+                rarity,
+                image: metadata?.image || '',
+                metadata
+              });
+            } catch (error) {
+              console.error(`获取 Token ${tokenId} 详情失败:`, error);
+            }
           } catch (error) {
-            console.error(`获取 Token ${tokenId} 详情失败:`, error);
+            console.error(`获取用户的第 ${i} 个 NFT 失败:`, error);
           }
         }
 
@@ -98,6 +134,7 @@ export default function Profile() {
         setNfts(userNFTs);
       } catch (error) {
         console.error('获取用户Token失败:', error);
+        console.error('错误详情:', error);
         setNfts([]);
       }
     } catch (error) {
@@ -246,14 +283,31 @@ export default function Profile() {
         ) : nfts.length === 0 ? (
           <p>No NFTs found. Play the game to mint some!</p>
         ) : (
-          <div className={styles.nftGrid}>
+          <div className={styles.grid}>
             {nfts.map((nft) => (
-              <div key={nft.tokenId} className={styles.nftCard}>
-                <h3>NFT #{nft.tokenId}</h3>
-                <p>Highest Score: {nft.highestScore}</p>
-                <p>Rarity: {nft.rarity}</p>
-                <p>Minted: {nft.timestamp}</p>
-              </div>
+              <NFTCard
+                key={nft.tokenId}
+                metadata={{
+                  id: nft.tokenId,
+                  name: `Game NFT #${nft.tokenId}`,
+                  description: "A Game NFT representing a game achievement",
+                  image: nft.image,
+                  attributes: [
+                    {
+                      trait_type: "Highest Score",
+                      value: nft.highestScore
+                    },
+                    {
+                      trait_type: "Rarity",
+                      value: nft.rarity
+                    },
+                    {
+                      trait_type: "Timestamp",
+                      value: nft.timestamp
+                    }
+                  ]
+                }}
+              />
             ))}
           </div>
         )}

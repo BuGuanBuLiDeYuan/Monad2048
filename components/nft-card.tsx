@@ -1,5 +1,4 @@
 import styles from '@/styles/nft-card.module.css';
-import { useEffect, useState } from 'react';
 
 interface NFTMetadata {
   id: string;

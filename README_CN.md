@@ -93,9 +93,8 @@ Gamefi-2048/
 - 稀有: `https://ipfs.io/ipfs/bafybeiaf3fy7r2evvqlhqqpbwla3lsurie2h6cwanalp7fzpxn3cq7pwgy`
 - 普通: `https://ipfs.io/ipfs/bafybeighwgusfefm23avzsxpaqbkacrqmywfunx3lx3nywmf23uwxvb45i`
 
-您可以从以下水龙头获取 Sepolia 测试币：
-- [Sepolia 水龙头](https://www.alchemy.com/faucets/ethereum-sepolia)
-- [Alchemy Sepolia 水龙头](https://faucets.chain.link/sepolia)
+您可以从以下水龙头获取测试币：
+https://testnet.monad.xyz/
 
 ## 贡献指南
 

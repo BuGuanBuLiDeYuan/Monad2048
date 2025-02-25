@@ -55,7 +55,7 @@ h2 {
   margin: calc(var(--pixel-size) * 2.5) calc(var(--pixel-size) * 0);
 }
 
-h2 > span {
+h2>span {
   display: block;
 }
 
@@ -66,7 +66,7 @@ h2 > span {
     margin: calc(var(--pixel-size) * 2.25) calc(var(--pixel-size) * 0);
   }
 
-  h2 > span {
+  h2>span {
     display: inline;
   }
 }
